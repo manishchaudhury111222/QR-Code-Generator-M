@@ -1,0 +1,156 @@
+<!--
+QR Code Generator – Single File (GitHub Ready)
+Author: You
+Use: Open index.html in browser or host on GitHub Pages
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Generator</title>
+
+  <!-- ===== BASIC STYLE ===== -->
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f0f0f;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .app {
+      width: 360px;
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    p {
+      font-size: 13px;
+      opacity: 0.7;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      background: #ffffff;
+      color: #000000;
+      margin-bottom: 12px;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .qr-box {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+
+    .download-btn {
+      margin-top: 12px;
+      background: transparent;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+    }
+
+    .download-btn:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== APP UI ===== -->
+  <div class="app">
+    <h1>QR Code Generator</h1>
+    <p>Text ya link daalo, turant QR milega</p>
+
+    <input 
+      type="text" 
+      id="qrInput" 
+      placeholder="Enter text or URL" 
+    />
+
+    <button onclick="generateQR()">Generate QR</button>
+
+    <div class="qr-box">
+      <img id="qrImage" alt="QR Code" />
+    </div>
+
+    <button class="download-btn" onclick="downloadQR()">Download QR</button>
+  </div>
+
+  <!-- ===== LOGIC ===== -->
+  <script>
+    const qrImage = document.getElementById("qrImage");
+
+    function generateQR() {
+      const text = document.getElementById("qrInput").value.trim();
+
+      if (text === "") {
+        alert("Kuch text ya link daalo");
+        return;
+      }
+
+      // Free public QR API (no key required)
+      const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
+
+      qrImage.src = qrURL;
+    }
+
+    function downloadQR() {
+      if (!qrImage.src) {
+        alert("Pehle QR generate karo");
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.href = qrImage.src;
+      link.download = "qr-code.png";
+      link.click();
+    }
+  </script>
+
+</body>
+</html>
